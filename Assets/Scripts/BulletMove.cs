@@ -6,45 +6,34 @@ public class BulletMove : MonoBehaviour
 {
     public float destroyWaitTime = 2f;
     // Start is called before the first frame update
-    public enum Direction
-    {
-        NotSet,
-        Up,
-        Down,
-        Left,
-        Right,
-    }
 
-    public Direction direction = Direction.NotSet;
-    public float speed = 1f;
+    Vector3 ShootTarget;
+    float bulletSpeed;
     private void Start()
     {
         StartCoroutine(DestroyItem(destroyWaitTime));
     }
 
+    public void SetBullet(Vector3 targetInput, float bulletSpeedInput)
+    {
+        ShootTarget = targetInput;
+        bulletSpeed = bulletSpeedInput;
+    }
     // Update is called once per frame
     void Update()
     {
-        switch (direction)
-        {
-            case Direction.Up:
-                transform.position = transform.position + new Vector3(0f, speed * Time.deltaTime, 0f);
-                break;
-            case Direction.Down:
-                transform.position = transform.position + new Vector3(0f, -speed * Time.deltaTime, 0f);
-                break;
-            case Direction.Left:
-                transform.position = transform.position + new Vector3(-speed * Time.deltaTime, 0f, 0f);
-                break;
-            case Direction.Right:
-                transform.position = transform.position + new Vector3(speed * Time.deltaTime, 0f, 0f);
-                break;
-        }
+        transform.position += (ShootTarget - transform.position).normalized * bulletSpeed * Time.deltaTime;
     }
 
     IEnumerator DestroyItem(float destroyWaitTime)
     {
         yield return new WaitForSeconds(destroyWaitTime);
         Destroy(gameObject);
+    }
+
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        Destroy(gameObject);
+        Debug.Log("Shoot on something");
     }
 }
