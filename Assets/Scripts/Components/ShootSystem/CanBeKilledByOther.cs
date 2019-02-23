@@ -27,7 +27,7 @@ public class CanBeKilledByOther : MonoBehaviour
                     GetComponent<Blood>().blood = blood;
                     if (blood <= 0f)
                     {
-                        Destroy(this.gameObject);
+                        gameObject.GetComponent<Enemy>().deadEnemy();
                     }
                 }
 
