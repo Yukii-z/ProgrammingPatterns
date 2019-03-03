@@ -2,26 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
 using Random = System.Random;
 
 public class EnemyManager : MonoBehaviour
 {
+    static private EnemyManager instance;
+    static public EnemyManager Instance {
+        get {
+            if (instance == null) {
+                instance = new EnemyManager();
+            }
+            return instance;
+        }
+    }
     public enum TypeOfEnemy
     {
-        NoType,
-        JumpEnemy,
-        WalkEnemy,
-        StayShootEnemy,
+        NoType=3,
+        JumpEnemy=2,
+        WalkEnemy=1,
+        StayShootEnemy=0,
     }
-
+    public Dictionary<TypeOfEnemy, int> enemyRecord = new Dictionary<TypeOfEnemy, int>();
     public List<GameObject> _enemy = new List<GameObject>();
     public Dictionary<string, int[]> _waveData = new Dictionary<string, int[]>();
     Dictionary<TypeOfEnemy, string> _prefabPath = new Dictionary<TypeOfEnemy,string>();
     private GameObject _player;
     bool emitControl;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        enemyRecord.Add(TypeOfEnemy.StayShootEnemy, 1);
+        enemyRecord.Add(TypeOfEnemy.WalkEnemy, 2);
+        enemyRecord.Add(TypeOfEnemy.JumpEnemy, 3);
         _waveData.Add("stayEnemy", new int[]{0, 0, 4});
         _waveData.Add("jumpEnemy", new int[]{6, 2, 0});
         _waveData.Add("walkEnemy", new int[]{1, 5, 2});
@@ -38,6 +51,7 @@ public class EnemyManager : MonoBehaviour
         {
             emitControl = true;
             StartCoroutine(EmitEnemy(RandomWave()));
+            EventManager.Instance.Fire(new EnemyWaveKilled());
         }
 
         foreach (var enemy in _enemy)

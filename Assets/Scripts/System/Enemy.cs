@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 
     public void setEnemy(EnemyManager enemyManager, EnemyManager.TypeOfEnemy myType)
     {
-        _enemyManager = enemyManager;
+        //_enemyManager = enemyManager;
         _myType = myType;
         isAlive = true;
     }
@@ -22,6 +22,10 @@ public class Enemy : MonoBehaviour
         if (gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
+        }
+        else
+        {
+            EventManager.Instance.Fire(new EnemyKilled(_myType));
         }
     }
     
