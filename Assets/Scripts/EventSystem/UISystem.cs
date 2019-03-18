@@ -37,10 +37,14 @@ public class UISystem : MonoBehaviour
     private void OnEnemyKilled(EnemyKilled evt)
     {
         int i= (int) evt.enemyType;
-        Debug.Log(evt.enemyType);
-        Debug.Log(i);
-        killedEnemyNum[i]++;
-        textBox[i].text = killedEnemyNum[i].ToString();
+        //Debug.Log(evt.enemyType);
+        //Debug.Log(i);
+       
+        if (textBox.Length > i)
+        {
+            killedEnemyNum[i]++;
+            textBox[i].text = killedEnemyNum[i].ToString();
+        }
     }
 
     private int killedWaveNum = -1;

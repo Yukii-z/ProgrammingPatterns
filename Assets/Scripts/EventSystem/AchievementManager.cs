@@ -53,22 +53,25 @@ public class AchievementManager : MonoBehaviour
     {
         int i= (int) evt.enemyType;
         // EnemyManager.Instance.enemyRecord.TryGetValue(evt.enemyType, out i);
-        killedEnemyNum[i]++;
-        if (killedEnemyNum[i] == _aimEnemyNum[i])
+        if (killedEnemyNum.Length > i)
         {
-            switch (i)
+            killedEnemyNum[i]++;
+            if (killedEnemyNum[i] == _aimEnemyNum[i])
             {
-                case 0:
-                    EventManager.Instance.Fire(new StayEnemyAchieve());
-                    break;
-                case 1:
-                    EventManager.Instance.Fire(new WalkEnemyAchieve());
-                    break;
-                case 2:
-                    EventManager.Instance.Fire(new JumpEnemyAchieve());
-                    break;
-            }
+                switch (i)
+                {
+                    case 0:
+                        EventManager.Instance.Fire(new StayEnemyAchieve());
+                        break;
+                    case 1:
+                        EventManager.Instance.Fire(new WalkEnemyAchieve());
+                        break;
+                    case 2:
+                        EventManager.Instance.Fire(new JumpEnemyAchieve());
+                        break;
+                }
 
+            }
         }
     }
 

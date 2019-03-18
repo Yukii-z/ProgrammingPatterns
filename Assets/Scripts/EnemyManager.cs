@@ -18,7 +18,9 @@ public class EnemyManager : MonoBehaviour
     }
     public enum TypeOfEnemy
     {
-        NoType=3,
+        
+        NoType=4,
+        WalkBossEnemy = 3,
         JumpEnemy=2,
         WalkEnemy=1,
         StayShootEnemy=0,
@@ -29,18 +31,21 @@ public class EnemyManager : MonoBehaviour
     Dictionary<TypeOfEnemy, string> _prefabPath = new Dictionary<TypeOfEnemy,string>();
     private GameObject _player;
     bool emitControl;
+
+    private int finishedWave = -1;
     // Start is called before the first frame update
     void Awake()
     {
-        enemyRecord.Add(TypeOfEnemy.StayShootEnemy, 1);
-        enemyRecord.Add(TypeOfEnemy.WalkEnemy, 2);
-        enemyRecord.Add(TypeOfEnemy.JumpEnemy, 3);
+        //enemyRecord.Add(TypeOfEnemy.StayShootEnemy, 1);
+        //enemyRecord.Add(TypeOfEnemy.WalkEnemy, 2);
+        //enemyRecord.Add(TypeOfEnemy.JumpEnemy, 3);
         _waveData.Add("stayEnemy", new int[]{0, 0, 4});
         _waveData.Add("jumpEnemy", new int[]{6, 2, 0});
         _waveData.Add("walkEnemy", new int[]{1, 5, 2});
         _prefabPath.Add(TypeOfEnemy.JumpEnemy, "Prefabs/JumpEnemy");
         _prefabPath.Add(TypeOfEnemy.WalkEnemy, "Prefabs/WalkEnemy");
         _prefabPath.Add(TypeOfEnemy.StayShootEnemy, "Prefabs/StayEnemy");
+        _prefabPath.Add(TypeOfEnemy.WalkBossEnemy, "Prefabs/WalkBossEnemy");
         _player = GameObject.FindWithTag("Player");
     }
 
@@ -50,7 +55,16 @@ public class EnemyManager : MonoBehaviour
         if (_enemy.Count ==0 && emitControl ==false)
         {
             emitControl = true;
-            StartCoroutine(EmitEnemy(RandomWave()));
+            finishedWave++;
+            if (finishedWave == 0)
+            {
+                CreateEnemy(TypeOfEnemy.WalkBossEnemy);
+            }
+            else
+            {
+                StartCoroutine(EmitEnemy(RandomWave()));
+            }
+
             EventManager.Instance.Fire(new EnemyWaveKilled());
         }
 
