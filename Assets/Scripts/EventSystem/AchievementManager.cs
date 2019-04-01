@@ -8,7 +8,7 @@ public class AchievementManager : MonoBehaviour
     static public AchievementManager Instance {
         get {
             if (instance == null) {
-                instance = new AchievementManager();
+                instance =  Object.FindObjectOfType<AchievementManager>();
             }
             return instance;
         }
@@ -122,5 +122,15 @@ public class AchievementManager : MonoBehaviour
     {
         Debug.Log("You stayed four corner!");
         Instantiate(achievePrefab, achieveColumn.transform);       
+    }
+
+    public void Clear()
+    {
+        killedEnemyNum = new int[3]{0,0,0};
+        killedWaveNum = -1;
+        foreach (Transform child in achieveColumn.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

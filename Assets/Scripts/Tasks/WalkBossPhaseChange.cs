@@ -64,7 +64,6 @@ public class WalkBossPhaseChange : MonoBehaviour
             }
             if (serialRunner2.HasTasks)
             {
-                Debug.Log("imwalking");
                 serialRunner2.Update();
             }
             else

@@ -11,7 +11,7 @@ public class EnemyManager : MonoBehaviour
     static public EnemyManager Instance {
         get {
             if (instance == null) {
-                instance = new EnemyManager();
+                instance =  UnityEngine.Object.FindObjectOfType<EnemyManager>();
             }
             return instance;
         }
@@ -27,14 +27,15 @@ public class EnemyManager : MonoBehaviour
     }
     public Dictionary<TypeOfEnemy, int> enemyRecord = new Dictionary<TypeOfEnemy, int>();
     public List<GameObject> _enemy = new List<GameObject>();
+    List<GameObject> _destroyEnemy = new List<GameObject>();
     public Dictionary<string, int[]> _waveData = new Dictionary<string, int[]>();
     Dictionary<TypeOfEnemy, string> _prefabPath = new Dictionary<TypeOfEnemy,string>();
     private GameObject _player;
-    bool emitControl;
+    public bool emitControl;
 
-    private int finishedWave = -1;
+    public int finishedWave { get; private set; }
     // Start is called before the first frame update
-    void Awake()
+    public void Awake()
     {
         //enemyRecord.Add(TypeOfEnemy.StayShootEnemy, 1);
         //enemyRecord.Add(TypeOfEnemy.WalkEnemy, 2);
@@ -47,18 +48,20 @@ public class EnemyManager : MonoBehaviour
         _prefabPath.Add(TypeOfEnemy.StayShootEnemy, "Prefabs/StayEnemy");
         _prefabPath.Add(TypeOfEnemy.WalkBossEnemy, "Prefabs/WalkBossEnemy");
         _player = GameObject.FindWithTag("Player");
+        finishedWave = -1;
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (_enemy.Count ==0 && emitControl ==false)
         {
             emitControl = true;
             finishedWave++;
-            if (finishedWave == 0)
+            if (finishedWave == 5)
             {
                 CreateEnemy(TypeOfEnemy.WalkBossEnemy);
+                emitControl = false;
             }
             else
             {
@@ -72,10 +75,16 @@ public class EnemyManager : MonoBehaviour
         {
             if (enemy.GetComponent<Enemy>().isAlive == false)
             {   
-                _enemy.Remove(enemy);
-                Destroy(enemy);
+                _destroyEnemy.Add(enemy);
             }
         }
+
+        foreach (var enemy in _destroyEnemy)
+        {
+            _enemy.Remove(enemy);
+            Destroy(enemy);
+        }
+        _destroyEnemy.Clear();
     }
 
     int[] RandomWave()
@@ -92,7 +101,6 @@ public class EnemyManager : MonoBehaviour
                 break;
             }
         }
-        Debug.Log("ChosenWave = "+ ChosenWave.Value);
         return ChosenWave.Value;
     }
     IEnumerator EmitEnemy(int[] chosenWave)
@@ -175,5 +183,21 @@ public class EnemyManager : MonoBehaviour
             
         }
         return new Vector3(x,y,-1f);
+    }
+
+    public void Clear()
+    {
+        finishedWave = -1;
+        foreach (var enemy in _enemy)
+        {
+            Destroy(enemy);
+        } 
+        _enemy.Clear();
+        foreach (var enemy in _destroyEnemy)
+        {
+            Destroy(enemy);
+        }
+        _destroyEnemy.Clear();
+        emitControl = true;
     }
 }

@@ -25,9 +25,13 @@ public class CanBeKilledByOther : MonoBehaviour
                     Debug.Log("get hurt");
                     blood = blood - collideObj.gameObject.GetComponent<Hurt>().hurt;
                     GetComponent<Blood>().blood = blood;
-                    if (blood <= 0f)
+                    if (blood <= 0f && gameObject!= Player)
                     {
                         gameObject.GetComponent<Enemy>().deadEnemy();
+                    }
+                    else
+                    {
+                        //GetComponent<Renderer>().enabled = false;
                     }
                 }
 

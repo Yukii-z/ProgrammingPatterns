@@ -11,7 +11,7 @@ public class UISystem : MonoBehaviour
     static public UISystem Instance {
         get {
             if (instance == null) {
-                instance = new UISystem();
+                instance =  UnityEngine.Object.FindObjectOfType<UISystem>();
             }
             return instance;
         }
@@ -53,5 +53,16 @@ public class UISystem : MonoBehaviour
     {
         killedWaveNum++;
         waveTextBox.text = killedWaveNum.ToString();
+    }
+
+    public void Clear()
+    {
+        killedWaveNum = -1;
+        killedEnemyNum = new[] {0, 0, 0};
+        foreach (var text in textBox)
+        {
+            text.text = "0";
+        }
+        waveTextBox.text = "0";
     }
 }

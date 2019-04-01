@@ -28,7 +28,7 @@ public class CanBeKilled : MonoBehaviour
 
                 if (blood <= 0f)
                 {
-                    StartCoroutine(DestroyEnemy());
+                    //StartCoroutine(DestroyEnemy());
                 }
             }
         }
