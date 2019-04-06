@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: 2156937495231141925}
   - component: {fileID: 3203453855917381000}
   - component: {fileID: 6526445434464339148}
-  - component: {fileID: 5542478587653122345}
   - component: {fileID: 5630916142031697033}
   - component: {fileID: 1193878900193990999}
+  - component: {fileID: 1193769613}
   m_Layer: 11
   m_Name: JumpEnemy
   m_TagString: Untagged
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 055d814948ab0ce4d9c6a505b32aaa17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialBlood: 5
   blood: 5
 --- !u!114 &5487260419070034842
 MonoBehaviour:
@@ -187,18 +188,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &5542478587653122345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3574595036208397930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eeef4f2dce8d4b4ab276524624a46c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &5630916142031697033
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -238,3 +227,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myType: 0
+--- !u!114 &1193769613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3574595036208397930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2857f46d2e37c44a8661bd31aef3b4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

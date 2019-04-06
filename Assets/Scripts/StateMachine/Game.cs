@@ -29,28 +29,28 @@ public class Game : MonoBehaviour
         // Update the 'brain'
         _fsm.Update();
         Debug.Log(_fsm.CurrentState);
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-                ((GameState) _fsm.CurrentState).OnResetGame();
-        }
-        
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ((GameState)_fsm.CurrentState).OnPauseGame();
-            ((GameState)_fsm.CurrentState).OnStopPause();
-        }
-
-        if (_playerBlood <= 0f)
-        {
-            ((GameState)_fsm.CurrentState).OnPlayerDead();
-        }
-
-        if (EnemyManager.Instance.finishedWave == 6 && _playerBlood>0f)
-        {
-            ((GameState)_fsm.CurrentState).OnGameWin();
-        }
-    }
+             if (Input.GetKeyDown(KeyCode.R))
+             {
+                     ((GameState) _fsm.CurrentState).OnResetGame();
+             }
+             
+     
+             if (Input.GetKeyDown(KeyCode.Escape))
+             {
+                 ((GameState)_fsm.CurrentState).OnPauseGame();
+                 ((GameState)_fsm.CurrentState).OnStopPause();
+             }
+     
+             if (_playerBlood <= 0f)
+             {
+                 ((GameState)_fsm.CurrentState).OnPlayerDead();
+             }
+     
+             if (EnemyManager.Instance.finishedWave == 6 && _playerBlood>0f)
+             {
+                 ((GameState)_fsm.CurrentState).OnGameWin();
+             }
+         }
     
     public class GameState : FSM<Game>.State
     {

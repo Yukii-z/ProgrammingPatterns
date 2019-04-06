@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Blood : MonoBehaviour
 {
-    private float _initialBlood;
+    public float initialBlood = 5.0f;
     public float blood = 5.0f;
 
     private void Awake()
     {
-        _initialBlood = blood;
+        initialBlood = blood;
     }
 
     public void ResetBlood()
     {
-        blood = _initialBlood;
+        blood = initialBlood;
     }
 }
