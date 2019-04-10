@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class AchievementManager : MonoBehaviour
 {
-    static private AchievementManager instance;
-    static public AchievementManager Instance {
-        get {
-            if (instance == null) {
-                instance =  Object.FindObjectOfType<AchievementManager>();
-            }
-            return instance;
-        }
-    }
     //enemy kill achievement
     public int[] killedEnemyNum = new int[3]{0,0,0};
     private int[] _aimEnemyNum = new int[3] {5, 5, 5};
@@ -25,28 +16,34 @@ public class AchievementManager : MonoBehaviour
     
     //be in four corner achievement
     // Start is called before the first frame update
+    private void Awake()
+    {
+        achievePrefab = Resources.Load<GameObject>("Prefabs/Flower (1)");
+        achieveColumn = GameObject.Find("Column");
+    }
+
     void Start()
     {
-        EventManager.Instance.AddHandler<EnemyKilled>(OnEnemyKilled);
-        EventManager.Instance.AddHandler<EnemyWaveKilled>(OnEnemyWaveKilled);
-        EventManager.Instance.AddHandler<StayEnemyAchieve>(OnStayEnemyAchieve);
-        EventManager.Instance.AddHandler<WalkEnemyAchieve>(OnWalkEnemyAchieve);
-        EventManager.Instance.AddHandler<JumpEnemyAchieve>(OnJumpEnemyAchieve);
-        EventManager.Instance.AddHandler<WaveAchieve>(OnWaveAchieve);
-        EventManager.Instance.AddHandler<StayFourCorner>(OnStayFourCorner);
-        EventManager.Instance.AddHandler<StayCornerAchieve>(OnStayCornerAchieve);
+        Services.Event.AddHandler<EnemyKilled>(OnEnemyKilled);
+        Services.Event.AddHandler<EnemyWaveKilled>(OnEnemyWaveKilled);
+        Services.Event.AddHandler<StayEnemyAchieve>(OnStayEnemyAchieve);
+        Services.Event.AddHandler<WalkEnemyAchieve>(OnWalkEnemyAchieve);
+        Services.Event.AddHandler<JumpEnemyAchieve>(OnJumpEnemyAchieve);
+        Services.Event.AddHandler<WaveAchieve>(OnWaveAchieve);
+        Services.Event.AddHandler<StayFourCorner>(OnStayFourCorner);
+        Services.Event.AddHandler<StayCornerAchieve>(OnStayCornerAchieve);
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.RemoveHandler<EnemyKilled>(OnEnemyKilled);
-        EventManager.Instance.RemoveHandler<EnemyWaveKilled>(OnEnemyWaveKilled);
-        EventManager.Instance.RemoveHandler<StayEnemyAchieve>(OnStayEnemyAchieve);
-        EventManager.Instance.RemoveHandler<WalkEnemyAchieve>(OnWalkEnemyAchieve);
-        EventManager.Instance.RemoveHandler<JumpEnemyAchieve>(OnJumpEnemyAchieve);
-        EventManager.Instance.RemoveHandler<WaveAchieve>(OnWaveAchieve);
-        EventManager.Instance.RemoveHandler<StayFourCorner>(OnStayFourCorner);
-        EventManager.Instance.RemoveHandler<StayCornerAchieve>(OnStayCornerAchieve);
+        Services.Event.RemoveHandler<EnemyKilled>(OnEnemyKilled);
+        Services.Event.RemoveHandler<EnemyWaveKilled>(OnEnemyWaveKilled);
+        Services.Event.RemoveHandler<StayEnemyAchieve>(OnStayEnemyAchieve);
+        Services.Event.RemoveHandler<WalkEnemyAchieve>(OnWalkEnemyAchieve);
+        Services.Event.RemoveHandler<JumpEnemyAchieve>(OnJumpEnemyAchieve);
+        Services.Event.RemoveHandler<WaveAchieve>(OnWaveAchieve);
+        Services.Event.RemoveHandler<StayFourCorner>(OnStayFourCorner);
+        Services.Event.RemoveHandler<StayCornerAchieve>(OnStayCornerAchieve);
     }
 
     void OnEnemyKilled(EnemyKilled evt)
@@ -61,13 +58,13 @@ public class AchievementManager : MonoBehaviour
                 switch (i)
                 {
                     case 0:
-                        EventManager.Instance.Fire(new StayEnemyAchieve());
+                        Services.Event.Fire(new StayEnemyAchieve());
                         break;
                     case 1:
-                        EventManager.Instance.Fire(new WalkEnemyAchieve());
+                        Services.Event.Fire(new WalkEnemyAchieve());
                         break;
                     case 2:
-                        EventManager.Instance.Fire(new JumpEnemyAchieve());
+                        Services.Event.Fire(new JumpEnemyAchieve());
                         break;
                 }
 
@@ -80,7 +77,7 @@ public class AchievementManager : MonoBehaviour
         killedWaveNum++;
         if (_aimWaveNum == killedWaveNum)
         {
-            EventManager.Instance.Fire(new WaveAchieve());
+            Services.Event.Fire(new WaveAchieve());
         }
     }
 
@@ -114,7 +111,7 @@ public class AchievementManager : MonoBehaviour
         cornerNum++;
         if (cornerNum == 4)
         {
-            EventManager.Instance.Fire(new StayCornerAchieve());
+            Services.Event.Fire(new StayCornerAchieve());
         }
     }
 

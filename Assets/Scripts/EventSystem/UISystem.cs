@@ -7,31 +7,25 @@ using UnityEngine.UI;
 
 public class UISystem : MonoBehaviour
 {
-    static private UISystem instance;
-    static public UISystem Instance {
-        get {
-            if (instance == null) {
-                instance =  UnityEngine.Object.FindObjectOfType<UISystem>();
-            }
-            return instance;
-        }
-    }
-
 
     // Start is called before the first frame update
     void Start()
     {
-        EventManager.Instance.AddHandler<EnemyKilled>(OnEnemyKilled);
-        EventManager.Instance.AddHandler<EnemyWaveKilled>(OnEnemyWaveKilled);
+        textBox[0] = GameObject.Find("Text (3)").GetComponent<Text>();
+        textBox[1] = GameObject.Find("Text (4)").GetComponent<Text>();
+        textBox[2] = GameObject.Find("Text (5)").GetComponent<Text>();
+        waveTextBox = GameObject.Find("Text (7)").GetComponent<Text>();
+        Services.Event.AddHandler<EnemyKilled>(OnEnemyKilled);
+        Services.Event.AddHandler<EnemyWaveKilled>(OnEnemyWaveKilled);
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.RemoveHandler<EnemyKilled>(OnEnemyKilled);
-        EventManager.Instance.RemoveHandler<EnemyWaveKilled>(OnEnemyWaveKilled);
+        Services.Event.RemoveHandler<EnemyKilled>(OnEnemyKilled);
+        Services.Event.RemoveHandler<EnemyWaveKilled>(OnEnemyWaveKilled);
     }
     
-    public Text[] textBox;
+    public Text[] textBox = new Text[3];
     private int[] killedEnemyNum = new[] {0, 0, 0};
     
     private void OnEnemyKilled(EnemyKilled evt)

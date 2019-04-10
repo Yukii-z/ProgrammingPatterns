@@ -14,16 +14,6 @@ public class EventManager
     private readonly Dictionary<Delegate, EventDelegate> _delegateLookup = new Dictionary<Delegate, EventDelegate>();
     private readonly List<GameEvent> _queuedEvents = new List<GameEvent>();
     private readonly object _queueLock = new object();
-
-    static private EventManager instance;
-    static public EventManager Instance {
-        get {
-            if (instance == null) {
-                instance = new EventManager();
-            }
-            return instance;
-        }
-    }
     
     /*private static readonly EventManager _instance = new EventManager();
     public static EventManager Instance => _instance;

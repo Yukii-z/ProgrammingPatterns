@@ -7,15 +7,6 @@ using Random = System.Random;
 
 public class EnemyManager : MonoBehaviour
 {
-    static private EnemyManager instance;
-    static public EnemyManager Instance {
-        get {
-            if (instance == null) {
-                instance =  UnityEngine.Object.FindObjectOfType<EnemyManager>();
-            }
-            return instance;
-        }
-    }
     public enum TypeOfEnemy
     {
         
@@ -32,8 +23,12 @@ public class EnemyManager : MonoBehaviour
     Dictionary<TypeOfEnemy, string> _prefabPath = new Dictionary<TypeOfEnemy,string>();
     private GameObject _player;
     public bool emitControl;
+    private int finishedWave = 0;
+    public int FinishedWave
+    {
+        get { return finishedWave;}
+    }
 
-    public int finishedWave { get; private set; }
     // Start is called before the first frame update
     public void Awake()
     {
@@ -68,7 +63,7 @@ public class EnemyManager : MonoBehaviour
                 StartCoroutine(EmitEnemy(RandomWave()));
             }
 
-            EventManager.Instance.Fire(new EnemyWaveKilled());
+            Services.Event.Fire(new EnemyWaveKilled());
         }
 
         foreach (var enemy in _enemy)

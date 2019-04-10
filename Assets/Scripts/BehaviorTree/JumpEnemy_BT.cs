@@ -70,7 +70,6 @@ public class JumpEnemy_BT : MonoBehaviour
     private bool timeChange{get
     {
         var i = (int)((Time.time - startTime) / _moveTime);
-        Debug.Log(i);
         return i > _moveCount;
     }}
 

@@ -22,10 +22,12 @@ public class Game : MonoBehaviour
         // Set the initial state. Don't forget to do this!!
         _fsm.TransitionTo<PlayState>();
         _player = GameObject.FindWithTag("Player");
+        ShowText = GameObject.Find("Text (8)").GetComponent<Text>();
     }
 
     private void Update()
     {
+        Debug.Log("game working");
         // Update the 'brain'
         _fsm.Update();
         Debug.Log(_fsm.CurrentState);
@@ -46,7 +48,7 @@ public class Game : MonoBehaviour
                  ((GameState)_fsm.CurrentState).OnPlayerDead();
              }
      
-             if (EnemyManager.Instance.finishedWave == 6 && _playerBlood>0f)
+             if (Services.Enemy.FinishedWave == 6 && _playerBlood>0f)
              {
                  ((GameState)_fsm.CurrentState).OnGameWin();
              }
@@ -66,9 +68,9 @@ public class Game : MonoBehaviour
         private float _waitTime = 0f;
         public override void OnEnter()
         {
-            EnemyManager.Instance.Clear();
-            UISystem.Instance.Clear();
-            AchievementManager.Instance.Clear();
+            Services.Enemy.Clear();
+            Services.UI.Clear();
+            Services.Achienement.Clear();
             _waitTime = 0f;
             Context._player.GetComponent<Blood>().ResetBlood();
         }
@@ -79,7 +81,7 @@ public class Game : MonoBehaviour
             if (_waitTime > 1f)
             {
                 TransitionTo<PlayState>();
-                EnemyManager.Instance.emitControl = false;
+                Services.Enemy.emitControl = false;
             }
         }
     

@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            EventManager.Instance.Fire(new EnemyKilled(_myType));
+            Services.Event.Fire(new EnemyKilled(_myType));
         }
     }
     
